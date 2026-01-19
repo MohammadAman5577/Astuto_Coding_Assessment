@@ -67,8 +67,22 @@ def find_overloaded_users(events):
         set()
     """
     # TODO: Implement your solution here
-    pass
 
+    from collections import defaultdict
+    ovrload_users = set()
+    
+    u_events = defaultdict(list)
+    for user_id, timestamp in events:
+        u_events[user_id].append(timestamp)
+
+    for user_id, timestamps in u_events.items():
+        timestamps.sort()
+        for i in range(len(timestamps) - 2):
+            if timestamps[i + 2] - timestamps[i] < 10:
+                ovrload_users.add(user_id)
+                break
+
+    return ovrload_users
 
 if __name__ == "__main__":
     # Test your solution here
@@ -81,3 +95,4 @@ if __name__ == "__main__":
     print(find_overloaded_users([]))  # Should print: set()
 
     print(find_overloaded_users([(1, 1), (1, 20), (1, 40)]))  # Should print: set()
+
